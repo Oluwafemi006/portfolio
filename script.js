@@ -1,3 +1,9 @@
+// Configuration EmailJS
+(function() {
+    // Remplacez par votre Public Key EmailJS
+    emailjs.init("ow41VmlYx9dlsZMBl");
+})();
+
 // Theme functionality
 function toggleTheme() {
     const html = document.documentElement;
@@ -132,16 +138,51 @@ function initHeaderScroll() {
     });
 }
 
-// Form submission
-function initForm() {
-    const form = document.querySelector('form');
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
+// EmailJS Form submission
+function initEmailJSForm() {
+    const form = document.getElementById('contact-form');
+    const statusElement = document.getElementById('form-status');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Désactiver le bouton et montrer le loading
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        statusElement.textContent = '';
+        statusElement.className = 'mt-4 text-center';
+
+        try {
+            // Envoyer l'email via EmailJS
+            const response = await emailjs.sendForm(
+                'eddy_006',     // Remplacez par votre Service ID
+                'template_rxcamkk',    // Remplacez par votre Template ID
+                form
+            );
+
+            // Succès
+            statusElement.textContent = 'Message sent successfully! ✅';
+            statusElement.classList.add('text-green-600');
             form.reset();
-        });
-    }
+            
+            // Cacher le message après 5 secondes
+            setTimeout(() => {
+                statusElement.textContent = '';
+            }, 5000);
+
+        } catch (error) {
+            // Erreur
+            console.error('EmailJS Error:', error);
+            statusElement.textContent = 'Failed to send message. Please try again. ❌';
+            statusElement.classList.add('text-red-600');
+        } finally {
+            // Réactiver le bouton
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    });
 }
 
 // Initialize everything when DOM is loaded
@@ -151,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initIntersectionObserver();
     initHeaderScroll();
-    initForm();
+    initEmailJSForm();
     
     // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
