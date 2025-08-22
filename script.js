@@ -1,7 +1,7 @@
 // Configuration EmailJS
 (function() {
     // Remplacez par votre Public Key EmailJS
-    emailjs.init("ow41VmlYx9dlsZMBl");
+    emailjs.init("GxjGRnIYOX29X0_Ra");
 })();
 
 // Theme functionality
