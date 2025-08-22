@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddy BONI - Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6c63ff',
+                        secondary: '#4d44db',
+                        dark: {
+                            100: '#1e1e1e',
+                            200: '#121212',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .cursor {
+            transition: all 0.1s ease;
+        }
+        .cursor-grow {
+            transform: scale(2);
+            background-color: rgba(108, 99, 255, 0.5);
+        }
+        .menu-slide-enter {
+            transform: translateX(100%);
+        }
+        .menu-slide-enter-active {
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        .menu-slide-exit {
+            transform: translateX(0);
+        }
+        .menu-slide-exit-active {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .skill-bar {
+            transition: width 1.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-200 dark:text-white transition-colors duration-300 overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="cursor w-5 h-5 bg-primary rounded-full fixed z-50 pointer-events-none transform -translate-x-1/2 -translate-y-1/2 mix-blend-multiply dark:mix-blend-difference"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full bg-white/90 dark:bg-dark-100/90 backdrop-blur-md z-40 py-5 px-4 lg:px-20 transition-all duration-300 shadow-lg dark:shadow-gray-900/20">
+        <nav class="flex items-center justify-between">
+            <div class="text-2xl font-bold text-primary">EB</div>
+            
+            <div class="hidden lg:flex items-center space-x-10">
+                <a href="#home" class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Home</a>
+                <a href="#about" class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">About</a>
+                <a href="#skills" class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Skills</a>
+                <a href="#projects" class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Projects</a>
+                <a href="#contact" class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Contact</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle w-14 h-7 bg-gray-200 dark:bg-gray-700 rounded-full relative cursor-pointer flex items-center px-1" onclick="toggleTheme()">
+                    <div class="toggle-ball w-5 h-5 bg-primary rounded-full absolute left-1 transition-transform duration-300 dark:translate-x-7"></div>
+                    <i class="fas fa-sun text-yellow-500 text-xs"></i>
+                    <i class="fas fa-moon text-blue-400 text-xs ml-auto"></i>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden flex flex-col space-y-1.5 p-2" onclick="toggleMenu()">
+                    <div class="w-6 h-0.5 bg-gray-800 dark:bg-white transition-transform duration-300 menu-line1"></div>
+                    <div class="w-6 h-0.5 bg-gray-800 dark:bg-white transition-opacity duration-300 menu-line2"></div>
+                    <div class="w-6 h-0.5 bg-gray-800 dark:bg-white transition-transform duration-300 menu-line3"></div>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="fixed top-0 right-0 w-80 h-full bg-white dark:bg-dark-100 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 lg:hidden" id="mobileMenu">
+        <div class="p-8 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-16">
+                <div class="text-2xl font-bold text-primary">EB</div>
+                <button class="p-2" onclick="toggleMenu()">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-8">
+                <a href="#home" class="text-2xl font-semibold hover:text-primary transition-colors" onclick="toggleMenu()">Home</a>
+                <a href="#about" class="text-2xl font-semibold hover:text-primary transition-colors" onclick="toggleMenu()">About</a>
+                <a href="#skills" class="text-2xl font-semibold hover:text-primary transition-colors" onclick="toggleMenu()">Skills</a>
+                <a href="#projects" class="text-2xl font-semibold hover:text-primary transition-colors" onclick="toggleMenu()">Projects</a>
+                <a href="#contact" class="text-2xl font-semibold hover:text-primary transition-colors" onclick="toggleMenu()">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center pt-20 pb-16 px-4 lg:px-20">
+            <div class="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-5xl lg:text-7xl font-bold mb-6 animate-fade-in-up">
+                        Hi, I'm <span class="text-primary">Eddy BONI</span>
+                    </h1>
+                    <h2 class="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-8 animate-fade-in-up delay-100">
+                        Web Developer & Student
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto lg:mx-0 animate-fade-in-up delay-200">
+                        Building digital experiences with code and creativity.
+                    </p>
+                    <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-full font-semibold hover:bg-secondary transition-all duration-300 transform hover:scale-105 animate-pulse inline-block animate-fade-in-up delay-300">
+                        Get In Touch
+                    </a>
+                </div>
+                <div class="relative animate-float">
+                    <div class="w-80 h-80 lg:w-96 lg:h-96 mx-auto relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full blur-2xl opacity-70 animate-pulse-slow"></div>
+                        <img src="Eddy.png" alt="Eddy BONI" class="relative z-10 w-full h-full rounded-full object-cover border-8 border-white dark:border-dark-100 shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-4 lg:px-20 bg-white dark:bg-dark-100">
+            <div class="container mx-auto">
+                <h2 class="text-4xl lg:text-5xl font-bold text-center mb-16">
+                    About <span class="text-primary">Me</span>
+                </h2>
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-600 dark:text-gray-300">
+                            I'm a 19-year-old passionate web developer currently pursuing a 200 degree at the University of Technology at the University of Parakou.
+                        </p>
+                        <p class="text-lg text-gray-600 dark:text-gray-300">
+                            My journey in programming started at a young age, and I've since developed skills in both front-end and back-end technologies.
+                        </p>
+                        <p class="text-lg text-gray-600 dark:text-gray-300">
+                            When I'm not coding, you can find me learning new technologies, contributing to open-source projects, or exploring the latest tech trends.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl text-center hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="text-5xl font-bold text-primary mb-2 counter" data-count="19">0</div>
+                            <div class="text-gray-600 dark:text-gray-300">Years Old</div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl text-center hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="text-5xl font-bold text-primary mb-2 counter" data-count="10">0</div>
+                            <div class="text-gray-600 dark:text-gray-300">Projects</div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl text-center hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="text-5xl font-bold text-primary mb-2 counter" data-count="7">0</div>
+                            <div class="text-gray-600 dark:text-gray-300">Skills</div>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl text-center hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="text-5xl font-bold text-primary mb-2 counter" data-count="2">0</div>
+                            <div class="text-gray-600 dark:text-gray-300">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 px-4 lg:px-20">
+            <div class="container mx-auto">
+                <h2 class="text-4xl lg:text-5xl font-bold text-center mb-16">
+                    My <span class="text-primary">Skills</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- HTML -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">HTML5</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="90%"></div>
+                        </div>
+                    </div>
+
+                    <!-- CSS -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">CSS3</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="85%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Python -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Python</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="80%"></div>
+                        </div>
+                    </div>
+
+                    <!-- React Native -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">React Native</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="75%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Django -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Django</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="70%"></div>
+                        </div>
+                    </div>
+
+                    <!-- C/C++ -->
+                    <div class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="text-5xl text-primary mb-6">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">C/C++</h3>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-secondary h-3 rounded-full skill-bar" style="width: 0%" data-width="65%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-4 lg:px-20 bg-white dark:bg-dark-100">
+            <div class="container mx-auto">
+                <h2 class="text-4xl lg:text-5xl font-bold text-center mb-16">
+                    My <span class="text-primary">Projects</span>
+                </h2>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://via.placeholder.com/400x300" alt="E-commerce Website" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold mb-4">E-commerce Website</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">Built with Django and React, this e-commerce platform features user authentication, product management, and payment integration.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Django</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">React</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Python</span>
+                            </div>
+                            <a href="#" class="text-primary font-semibold hover:text-secondary transition-colors flex items-center">
+                                View Project <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://via.placeholder.com/400x300" alt="Mobile Task Manager" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold mb-4">Mobile Task Manager</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">A React Native application for managing daily tasks with cloud synchronization and offline capabilities.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">React Native</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Firebase</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">JavaScript</span>
+                            </div>
+                            <a href="#" class="text-primary font-semibold hover:text-secondary transition-colors flex items-center">
+                                View Project <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://via.placeholder.com/400x300" alt="University Portal" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold mb-4">University Portal</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">A web portal for university students to access course materials, submit assignments, and view grades.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Django</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">HTML/CSS</span>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">PostgreSQL</span>
+                            </div>
+                            <a href="#" class="text-primary font-semibold hover:text-secondary transition-colors flex items-center">
+                                View Project <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-4 lg:px-20">
+            <div class="container mx-auto">
+                <h2 class="text-4xl lg:text-5xl font-bold text-center mb-16">
+                    Get In <span class="text-primary">Touch</span>
+                </h2>
+                <div class="grid lg:grid-cols-2 gap-16">
+                    <div>
+                        <h3 class="text-3xl font-semibold mb-6">Let's Talk About Your Project</h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">I'm currently available for freelance work or internships. Feel free to reach out!</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span>eddyboni@example.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <span>+229 019 662 0695</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <span>University of Parakou, Benin</span>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/Oluwafemi006" target="_blank" class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/a-o-kenneth-eddy-boni-6794512b3" target="_blank" class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" target="_blank" class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.instagram.com/eddyboni_06/" target="_blank" class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <form class="bg-white dark:bg-dark-100 p-8 rounded-2xl shadow-lg">
+                        <div class="mb-6">
+                            <input type="text" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white transition-all" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="email" placeholder="Your Email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white transition-all" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="text" placeholder="Subject" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white transition-all">
+                        </div>
+                        <div class="mb-6">
+                            <textarea placeholder="Your Message" rows="5" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white transition-all" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-secondary transition-all transform hover:scale-105">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-100 text-white py-12 px-4 lg:px-20">
+        <div class="container mx-auto text-center">
+            <div class="text-2xl font-bold text-primary mb-4">Eddy BONI</div>
+            <p class="text-gray-300 mb-6">Web Developer & Student at University of Parakou</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#home" class="hover:text-primary transition-colors">Home</a>
+                <a href="#about" class="hover:text-primary transition-colors">About</a>
+                <a href="#skills" class="hover:text-primary transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-primary transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+            </div>
+            <div class="border-t border-gray-700 pt-8">
+                <p>&copy; 2025 Eddy BONI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
